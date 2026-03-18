@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "copilot-license-indicator-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/copilotLicenseIndicator/CopilotLicenseIndicatorWebPart.js",
+          "manifest": "./src/webparts/copilotLicenseIndicator/CopilotLicenseIndicatorWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CopilotLicenseIndicatorWebPartStrings": "lib/webparts/copilotLicenseIndicator/loc/{locale}.js"
+  }
+}

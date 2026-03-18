@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "packageManager": "pnpm",
+    "useGulp": false,
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.14.0",
+    "sdksVersions": {},
+    "version": "1.22.2",
+    "libraryName": "copilot-license-indicator",
+    "libraryId": "dc4f992e-ada9-4917-ada3-e96d6ab3200d",
+    "environment": "spo",
+    "solutionName": "copilot-license-indicator",
+    "solutionShortDescription": "copilot-license-indicator description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

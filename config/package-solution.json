@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "copilot-license-indicator-client-side-solution",
+    "id": "dc4f992e-ada9-4917-ada3-e96d6ab3200d",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.22.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "copilot-license-indicator description"
+      },
+      "longDescription": {
+        "default": "copilot-license-indicator description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "copilot-license-indicator Feature",
+        "description": "The feature that activates elements of the copilot-license-indicator solution.",
+        "id": "58d7eaac-1728-440f-a094-c4788fd8b0f8",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/copilot-license-indicator.sppkg"
+  }
+}
