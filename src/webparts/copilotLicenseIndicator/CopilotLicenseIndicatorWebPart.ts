@@ -56,9 +56,8 @@ export default class CopilotLicenseIndicatorWebPart extends BaseClientSideWebPar
   private _errorMessage: string = '';
 
   /**
-   * React のレンダリング先 DOM 要素。
-   * `render()` メソッドの中で使用され、`onDispose()` でアンマウントに用いる。
-   * 初回の `render()` 呼び出し時に `domElement` が設定され、以降は再利用される。
+   * React のレンダリング先コンテナ DOM 要素。
+   * `ReactDOM.render()` および `ReactDOM.unmountComponentAtNode()` に渡すコンテナ要素として使用する。
    */
   private _reactRoot: Element | undefined;
 
@@ -137,7 +136,8 @@ export default class CopilotLicenseIndicatorWebPart extends BaseClientSideWebPar
   /**
    * Web パーツが破棄される際のクリーンアップ処理。
    *
-   * React ルートが存在する場合はアンマウントしてメモリリークを防ぐ。
+   * `ReactDOM.unmountComponentAtNode()` を使用してコンテナ要素にレンダリングされた
+   * React コンポーネントツリーをアンマウントし、メモリリークを防ぐ。
    */
   protected onDispose(): void {
     if (this._reactRoot) {
