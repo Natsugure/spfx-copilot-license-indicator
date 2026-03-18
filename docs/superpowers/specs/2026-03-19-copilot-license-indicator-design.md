@@ -46,7 +46,7 @@ onInit() runs asynchronously:
 
 | File | Change |
 |------|--------|
-| `src/webparts/copilotLicenseIndicator/CopilotLicenseIndicatorWebPart.ts` | Graph call, state management, React 18 `createRoot` rendering |
+| `src/webparts/copilotLicenseIndicator/CopilotLicenseIndicatorWebPart.ts` | Graph call, state management, React 17 `ReactDOM.render` rendering |
 | `src/webparts/copilotLicenseIndicator/CopilotLicenseIndicatorWebPart.module.scss` | Minimal layout styles |
 | `config/package-solution.json` | Add `webApiPermissionRequests` inside the `"solution"` object |
 
@@ -59,11 +59,11 @@ onInit() runs asynchronously:
 ```typescript
 import { MSGraphClientV3 } from '@microsoft/sp-http';
 import * as React from 'react';
-import { createRoot, Root } from 'react-dom/client';
+import * as ReactDOM from 'react-dom';
 import { MessageBar, MessageBarType, Spinner, SpinnerSize } from '@fluentui/react';
 ```
 
-SPFx 1.22.2 provides React 18 as a shared library — no separate `react` / `react-dom` package installation is required. `@fluentui/react` is already listed in `package.json`.
+SPFx 1.22.2 ships with **React 17.0.1** (not React 18) as a shared library. `react` and `react-dom` should be listed in `devDependencies` only (SPFx provides them as externals at runtime). `@fluentui/react` must be in `dependencies`.
 
 ### State Fields
 
@@ -72,14 +72,14 @@ private _hasLicense: boolean = false;
 private _licenseName: string = '';
 private _isLoading: boolean = true;
 private _errorMessage: string = '';
-private _reactRoot: Root | undefined;
+private _reactRoot: Element | undefined;
 ```
 
-`_reactRoot` stores the React 18 root instance to avoid creating a new root on every `render()` call.
+`_reactRoot` stores the container DOM element (`this.domElement`) passed to `ReactDOM.render()` and `ReactDOM.unmountComponentAtNode()`.
 
 ### Rendering Logic
 
-`render()` uses React 18's `createRoot` API. On the first call, it creates `_reactRoot = createRoot(this.domElement)`. On subsequent calls it reuses `_reactRoot`. It then calls `_reactRoot.render(...)` with the appropriate Fluent UI component.
+`render()` uses React 17's `ReactDOM.render()`. On the first call it sets `_reactRoot = this.domElement`. On subsequent calls it reuses the stored container. It calls `ReactDOM.render(element, this._reactRoot)` with the appropriate Fluent UI component.
 
 | State | Fluent UI Component | Appearance |
 |-------|-------------------|------------|
@@ -117,7 +117,7 @@ Override `onDispose()` to unmount the React root and avoid memory leaks:
 ```typescript
 protected onDispose(): void {
   if (this._reactRoot) {
-    this._reactRoot.unmount();
+    ReactDOM.unmountComponentAtNode(this._reactRoot);
   }
 }
 ```
