@@ -2,9 +2,14 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+SharePoint Framework (SPFx) の Web パーツとして動作し、サインインユーザーが **Microsoft 365 Copilot** ライセンスを保持しているかどうかを Fluent UI コンポーネントで表示します。
 
-[picture of the solution in action, if possible]
+Microsoft Graph API の `/me/licenseDetails` エンドポイントを呼び出し、Copilot の SKU ID (`639dec6b-bb19-468b-871c-c5c441c4b0cb`) に一致するライセンスの有無を確認します。
+
+- ライセンスあり → 緑の MessageBar にライセンス名を表示
+- ライセンスなし → 黄色の MessageBar で通知
+- エラー発生時 → 赤の MessageBar にエラーメッセージを表示
+- 読み込み中 → Spinner を表示
 
 ## Used SharePoint Framework Version
 
@@ -15,24 +20,23 @@ Short summary on functionality and used technologies.
 - [SharePoint Framework](https://aka.ms/spfx)
 - [Microsoft 365 tenant](https://docs.microsoft.com/sharepoint/dev/spfx/set-up-your-developer-tenant)
 
-> Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
-
 ## Prerequisites
 
-> Any special pre-requisites?
+- Node.js >= 22.14.0 < 23.0.0
+- pnpm (推奨)
+- Microsoft 365 テナント（開発環境）
 
 ## Solution
 
-| Solution    | Author(s)                                               |
-| ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
+| Solution                  | Author(s) |
+| ------------------------- | --------- |
+| copilot-license-indicator | Natsugure   |
 
 ## Version history
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
+| 0.0.1   | March 19, 2026   | Initial release |
 
 ## Disclaimer
 
@@ -42,36 +46,53 @@ Short summary on functionality and used technologies.
 
 ## Minimal Path to Awesome
 
-- Clone this repository
-- Ensure that you are at the solution folder
-- in the command-line run:
-  - `npm install -g @rushstack/heft`
-  - `npm install`
-  - `heft start`
+```bash
+# リポジトリをクローン
+git clone <repository-url>
+cd copilot-license-indicator
 
-> Include any additional steps as needed.
+# 依存関係のインストール
+pnpm install
 
-Other build commands can be listed using `heft --help`.
+# 開発サーバーの起動
+heft start --clean
+```
+
+ブラウザで `https://localhost:4321/temp/workbench.html` を開き、Web パーツを追加して動作を確認できます。
+
+## Build & Deploy
+
+```bash
+# テスト・ビルド・パッケージング（.sppkg 生成）
+heft test --clean --production && heft package-solution --production
+```
+
+生成された `sharepoint/solution/*.sppkg` をアプリカタログにアップロードしてください。
 
 ## Features
 
-Description of the extension that expands upon high-level summary above.
+- Microsoft Graph API を使用してサインインユーザーのライセンス情報を取得
+- Microsoft 365 Copilot SKU ID による正確なライセンス判定
+- Fluent UI (`@fluentui/react`) の MessageBar / Spinner でステート別 UI を表示
+- SPFx 1.22.2 / React 17 / TypeScript 5.8 で実装
+- SharePoint Web パーツ・Teams タブ・Teams Personal App のホストに対応
 
-This extension illustrates the following concepts:
+## Project Structure
 
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
+```
+src/
+└── webparts/
+    └── copilotLicenseIndicator/
+        ├── CopilotLicenseIndicatorWebPart.ts   # Web パーツ本体
+        ├── licenseUtils.ts                      # ライセンス判定ロジック
+        └── tests/
+            └── licenseUtils.test.ts             # ユニットテスト
+```
 
 ## References
 
 - [Getting started with SharePoint Framework](https://docs.microsoft.com/sharepoint/dev/spfx/set-up-your-developer-tenant)
-- [Building for Microsoft teams](https://docs.microsoft.com/sharepoint/dev/spfx/build-for-teams-overview)
 - [Use Microsoft Graph in your solution](https://docs.microsoft.com/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
-- [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/sharepoint/dev/spfx/publish-to-marketplace-overview)
-- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
+- [Fluent UI React](https://developer.microsoft.com/en-us/fluentui#/controls/web)
+- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp)
 - [Heft Documentation](https://heft.rushstack.io/)
