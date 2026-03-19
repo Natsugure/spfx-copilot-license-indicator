@@ -8,18 +8,12 @@ import { MessageBar, MessageBarType, Spinner, SpinnerSize } from '@fluentui/reac
 
 import { findCopilotLicense, ILicenseEntry } from './licenseUtils';
 
-/**
- * Web パーツのプロパティを定義するインターフェース。
- * 現時点ではカスタムプロパティを持たない。
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ICopilotLicenseIndicatorWebPartProps {}
 
 /**
  * Microsoft Graph `/me/licenseDetails` エンドポイントのレスポンス形式を表すインターフェース。
  */
 interface ILicenseDetailsResponse {
-  /** ライセンスエントリの配列 */
   value: ILicenseEntry[];
 }
 
@@ -31,34 +25,10 @@ interface ILicenseDetailsResponse {
  */
 export default class CopilotLicenseIndicatorWebPart extends BaseClientSideWebPart<ICopilotLicenseIndicatorWebPartProps> {
 
-  /**
-   * ユーザーが Copilot ライセンスを保有しているかどうかを示すフラグ。
-   * `onInit()` でライセンス取得後に更新される。
-   */
   private _hasLicense: boolean = false;
-
-  /**
-   * 検出された Copilot ライセンスの表示名。
-   * ライセンスが存在する場合に `onInit()` で設定される。
-   */
   private _licenseName: string = '';
-
-  /**
-   * ライセンス情報の取得中であるかどうかを示すフラグ。
-   * 初期値は `true` で、取得完了後に `false` へ変わる。
-   */
   private _isLoading: boolean = true;
-
-  /**
-   * ライセンス取得時にエラーが発生した場合のメッセージ。
-   * エラーが存在しない場合は空文字列。
-   */
   private _errorMessage: string = '';
-
-  /**
-   * React のレンダリング先コンテナ DOM 要素。
-   * `ReactDOM.render()` および `ReactDOM.unmountComponentAtNode()` に渡すコンテナ要素として使用する。
-   */
   private _reactRoot: Element | undefined;
 
   /**
@@ -145,22 +115,10 @@ export default class CopilotLicenseIndicatorWebPart extends BaseClientSideWebPar
     }
   }
 
-  /**
-   * この Web パーツのデータバージョンを返す。
-   *
-   * プロパティのシリアライズ互換性管理に使用される。
-   */
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
 
-  /**
-   * プロパティペインの設定を返す。
-   *
-   * この Web パーツはカスタムプロパティを持たないため、空のグループを返す。
-   *
-   * @returns プロパティペインの設定オブジェクト
-   */
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
